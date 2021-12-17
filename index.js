@@ -24,6 +24,7 @@ async function run() {
         //collections
         const usersCollection = database.collection("users");
         const servicesCollection = database.collection("services");
+        const ordersCollection = database.collection("orders");
 
 
         //GET API for getting all services
@@ -83,6 +84,20 @@ async function run() {
             const user = await usersCollection.findOne(query);
 
             res.json(user);
+
+        })
+
+        //POST API for storing orders on database
+        app.post('/orders', async (req, res) => {
+            const order = req.body;
+
+            //console.log(order)
+
+            const result = await ordersCollection.insertOne(order);
+
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+            res.json(result);
 
         })
 
