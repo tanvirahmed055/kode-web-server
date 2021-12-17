@@ -5,7 +5,6 @@ require('dotenv').config();
 const ObjectId = require('mongodb').ObjectId;
 
 const app = express()
-
 const port = process.env.PORT || 5000;
 
 //middleware
@@ -16,12 +15,38 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-client.connect(err => {
-    const collection = client.db("kodeWeb_Db").collection("services");
-    // perform actions on the collection object
-    console.log(uri);
-    console.log("connected to database");
-});
+
+async function run() {
+    try {
+        await client.connect();
+        //database 
+        const database = client.db("kodeWeb_Db");
+        //collections
+        const servicesCollection = database.collection("services");
+
+
+        //GET API for getting all products
+        app.get('/services', async (req, res) => {
+            // query for services
+            const query = {};
+
+            const cursor = servicesCollection.find(query);
+            // print a message if no documents were found
+            if ((await cursor.count()) === 0) {
+                console.log("No documents found!");
+            }
+
+            const result = await cursor.toArray();
+            res.json(result);
+        })
+
+
+
+    } finally {
+        //await client.close();
+    }
+}
+run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
