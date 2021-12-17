@@ -71,6 +71,21 @@ async function run() {
 
         })
 
+        //GET API for getting a userInfo
+        app.get('/user', async (req, res) => {
+
+            const email = req.query.email;
+            console.log(email);
+
+            // Query for a user
+            const query = { email: email };
+
+            const user = await usersCollection.findOne(query);
+
+            res.json(user);
+
+        })
+
 
 
     } finally {
