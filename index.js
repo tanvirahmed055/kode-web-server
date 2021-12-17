@@ -22,10 +22,11 @@ async function run() {
         //database 
         const database = client.db("kodeWeb_Db");
         //collections
+        const usersCollection = database.collection("users");
         const servicesCollection = database.collection("services");
 
 
-        //GET API for getting all products
+        //GET API for getting all services
         app.get('/services', async (req, res) => {
             // query for services
             const query = {};
@@ -38,6 +39,36 @@ async function run() {
 
             const result = await cursor.toArray();
             res.json(result);
+        })
+
+
+        //GET API for getting a service
+        app.get('/service', async (req, res) => {
+
+            const serviceId = req.query.id;
+            console.log(serviceId);
+
+            // Query for a service
+            const query = { _id: ObjectId(serviceId) };
+
+            const service = await servicesCollection.findOne(query);
+
+            res.json(service);
+
+        })
+
+        //POST API for storing users on database
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+
+            console.log(user)
+
+            const result = await usersCollection.insertOne(user);
+
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+            res.json(result);
+
         })
 
 
