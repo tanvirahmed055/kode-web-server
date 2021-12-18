@@ -268,6 +268,20 @@ async function run() {
 
         })
 
+        //POST API for adding a new service on database
+        app.post('/addService', async (req, res) => {
+            const newService = req.body;
+            //console.log(newProduct);
+
+
+            const result = await servicesCollection.insertOne(newService);
+
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+            res.json(result);
+
+        })
+
 
 
     } finally {
