@@ -204,7 +204,7 @@ async function run() {
 
         //GET API for getting all orders
         app.get('/allOrders', async (req, res) => {
-            // query for products
+            // query for orders
             const query = {};
 
             const cursor = ordersCollection.find(query);
@@ -271,7 +271,7 @@ async function run() {
         //POST API for adding a new service on database
         app.post('/addService', async (req, res) => {
             const newService = req.body;
-            //console.log(newProduct);
+            //console.log(newService);
 
 
             const result = await servicesCollection.insertOne(newService);
