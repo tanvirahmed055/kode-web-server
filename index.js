@@ -217,6 +217,33 @@ async function run() {
             res.json(result);
         })
 
+        //PUT API for updating order status
+        app.put('/updateStatus', async (req, res) => {
+
+            const orderId = req.body.orderId;
+
+            //console.log(orderId)
+            //console.log(req.body, orderId);
+
+            // create a filter for a order to update status
+            const filter = { _id: ObjectId(orderId) };
+            //console.log(filter);
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: false };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+                $set: {
+                    status: 'shipped'
+                },
+            };
+            const result = await ordersCollection.updateOne(filter, updateDoc, options);
+            console.log(
+                `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
+            );
+
+
+        })
+
 
 
     } finally {
