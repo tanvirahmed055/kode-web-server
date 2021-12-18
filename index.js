@@ -160,6 +160,20 @@ async function run() {
             res.json(result);
         })
 
+        //POST API for adding a new review on database
+        app.post('/addReview', async (req, res) => {
+            const newReview = req.body;
+            //console.log(newReview);
+
+
+            const result = await reviewsCollection.insertOne(newReview);
+
+            console.log(`A document was inserted with the _id: ${result.insertedId}`);
+
+            res.json(result);
+
+        })
+
 
 
     } finally {
