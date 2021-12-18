@@ -202,6 +202,21 @@ async function run() {
 
         })
 
+        //GET API for getting all orders
+        app.get('/allOrders', async (req, res) => {
+            // query for products
+            const query = {};
+
+            const cursor = ordersCollection.find(query);
+            // print a message if no documents were found
+            if ((await cursor.count()) === 0) {
+                console.log("No documents found!");
+            }
+
+            const result = await cursor.toArray();
+            res.json(result);
+        })
+
 
 
     } finally {
