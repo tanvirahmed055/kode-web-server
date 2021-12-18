@@ -233,7 +233,7 @@ async function run() {
             // create a document that sets the plot of the movie
             const updateDoc = {
                 $set: {
-                    status: 'shipped'
+                    status: 'approved'
                 },
             };
             const result = await ordersCollection.updateOne(filter, updateDoc, options);
